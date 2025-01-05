@@ -28,7 +28,7 @@ class User(AbstractUser):
 
 class Supplier(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='supplier_profile',null=True)
-    start_date = models.DateField(auto_now_add=True , null = True)
+    start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
@@ -48,7 +48,6 @@ class Product(models.Model):
 
 class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='inventory')
-    location = models.CharField(max_length=255)
     stock_level = models.IntegerField()
     low_stock_alert = models.IntegerField(default=10)  # Default alert threshold
 

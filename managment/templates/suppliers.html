@@ -84,7 +84,8 @@
                 Suppliers
             </div>
             <div class="button-wrapper">
-                <button onclick="window.location.href='{% url 'add-supplier' %}'" class="add-supplier-btn">Add Supplier</button>
+                <a href="{% url 'add-supplier' %}" class="add-supplier-btn">Add Supplier</a>
+                <!-- <button onclick="window.location.href='{% url 'add-supplier' %}'" class="add-supplier-btn">Add Supplier</button> -->
             </div>
             <div class="table-wrapper">
                 <table id="orders-table">

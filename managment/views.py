@@ -3,7 +3,7 @@ from django.contrib.auth import logout as auth_logout, login as auth_login
 from .models import *
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-
+from .forms import *
 # Create your views here.
 
 def login(request):
@@ -41,17 +41,26 @@ def logout(request):
     return redirect("login")
 
 def dashboard(request):
-    context={}
+    new_orders = Order.objects.filter(status="Pending").count()
+    all_orders = Order.objects.count()
+    num_suppliers = Supplier.objects.count()
+    num_products = Product.objects.count()
+    context={"new_orders" : new_orders , "all_orders" : all_orders , "num_suppliers" : num_suppliers, "num_products" : num_products}
     return render(request, 'dashboard.html' , context)
 
 def inventory(request):
-    products = Product.objects.all()
-    inventory = Inventory.objects.all()
-    context={"inventory" : inventory , "products": products}
+    products = Product.objects.all().prefetch_related('inventory')
+    context = {
+        'products': products,
+    }
     return render(request, 'inventory.html' , context)
 
 def orders(request):
-    orders = Order.objects.all()
+    if request.user.role == "Admin":
+        orders = Order.objects.all()
+    else:
+        supplier = request.user.supplier_profile
+        orders = Order.objects.filter(supplier=supplier)
     context={"orders" : orders}
     return render(request, 'orders.html' , context)
 
@@ -66,8 +75,25 @@ def suppliers(request):
     return render(request, 'suppliers.html' , context)
 
 def add_supplier(request):
+    if request.method == 'POST':
+        form = supplierForm(request.POST)
+        
+        # Check if the form is valid
+        if form.is_valid():
+            # Save the form data and create a new Supplier instance
+            form.save()
+            
+            # Redirect to a success page or supplier list page after saving
+            return redirect('suppliers')  # Modify this to your actual redirect URL
+            
+        else:
+            # If the form is not valid, return the form with error messages
+            return render(request, 'add_supplier.html', {'form': form})
     
-    context={}
+    # If the request is GET, show the empty form
+    else:
+        form = supplierForm()
+    context={"form" : form}
     return render(request, 'add_supplier.html' , context)
 
 def add_user(request):
@@ -94,6 +120,29 @@ def add_user(request):
             messages.error(request, f"Error adding user: {e}")
     context={}
     return render(request, 'add_user.html' , context)
+
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            # Save the product instance
+            product = form.save()
+
+            # Now create an Inventory instance related to the product
+            # You can set default values for other fields in Inventory
+            inventory = Inventory.objects.create(
+                product=product,   # Assign the newly created product
+                stock_level=0,      # Default stock level, can be customized
+                low_stock_alert=0  # Default low stock alert value
+            )
+
+            # Redirect to the inventory page or wherever you want
+            return redirect('inventory')
+    else:
+        form = ProductForm()  # Create a new empty form when GET request is made
+    
+    return render(request, 'add_product.html', {'form': form})
 
 def settings(request):
     if request.method == "POST":

@@ -2,4 +2,148 @@
 {% load static %}
 {% block body %}
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - E-commerce Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #e0f7fa, #80deea);
+            color: #000;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #000;
+        }
+
+        th {
+            background-color: #4c9baf;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .report-container {
+            text-align: center;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #003b79;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #002e4d;
+        }
+        .title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="container">
+            <div class="title">
+                Orders
+            </div>
+            <div class="report-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vendor Name</th>
+                            <th>Customer ID</th>
+                            <th>Region</th>
+                            <th>Product</th>
+                            <th>Number of Objects Bought</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example data rows -->
+                        <tr>
+                            <td>Vendor A</td>
+                            <td>12345</td>
+                            <td>North</td>
+                            <td>Product 1</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Vendor B</td>
+                            <td>67890</td>
+                            <td>South</td>
+                            <td>Product 2</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>Vendor C</td>
+                            <td>54321</td>
+                            <td>East</td>
+                            <td>Product 3</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Vendor D</td>
+                            <td>98765</td>
+                            <td>West</td>
+                            <td>Product 4</td>
+                            <td>10</td>
+                        </tr>
+                    </tbody>
+                </table>
+        
+                <!-- Back Button -->
+            </div>
+        </div>
+      </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 {% endblock body %}
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <h1>Report</h1>
+    
+</body>
+</html>

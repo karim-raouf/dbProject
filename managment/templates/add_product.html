@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - E-commerce Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f9ff; /* Light blue background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #003366;
+            text-align: center;
+            padding-bottom: 50px;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2d72d9;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        select.supplier-select {
+            background-color: #e6f2ff;  /* Optional: Change background color */
+            border: 1px solid #ddd;    /* Optional: Border styling */
+            padding: 10px;              /* Optional: Add padding */
+            border-radius: 4px;         /* Optional: Add border radius */
+            font-size: 14px;            /* Optional: Font size */
+            width: 100%;                /* Optional: Full width */
+        }
+
+        input[type="submit"] {
+            background-color: #2d72d9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #1e5a99;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+            <div class="container">
+                <h2>Adding Product Form</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}">Product Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <span class="error">{{ form.name.errors }}</span>
+                        {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="{{ form.sku.id_for_label }}">SKU</label>
+                        {{ form.sku }}
+                        {% if form.sku.errors %}
+                            <span class="error">{{ form.sku.errors }}</span>
+                        {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="{{ form.description.id_for_label }}">Description</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <span class="error">{{ form.description.errors }}</span>
+                        {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="{{ form.price.id_for_label }}">Price</label>
+                        {{ form.price }}
+                        {% if form.price.errors %}
+                            <span class="error">{{ form.price.errors }}</span>
+                        {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="{{ form.supplier.id_for_label }}">Supplier</label>
+                        {{ form.supplier }}
+                        {% if form.supplier.errors %}
+                            <span class="error">{{ form.supplier.errors }}</span>
+                        {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <input type="submit" value="Add Product">
+                    </div>
+                </form>
+            </div>
+      </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+{% endblock body %}
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Product</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">
+            Add New Product
+        </div>
+
+        
+    </div>
+
+    <script>
+        // Form validation script
+        document.getElementById('product-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(function(errorSpan) {
+                errorSpan.textContent = '';
+            });
+
+            // Validate ID
+            const productId = document.getElementById('product-id').value;
+            if (!productId.match(/^\d+$/)) {
+                document.getElementById('id-error').textContent = "Product ID must be numeric.";
+                isValid = false;
+            }
+
+            // Validate Name
+            const productName = document.getElementById('product-name').value;
+            if (productName.trim() === "") {
+                document.getElementById('name-error').textContent = "Product name is required.";
+                isValid = false;
+            }
+
+            // Validate SKU
+            const productSku = document.getElementById('product-sku').value;
+            if (productSku.trim() === "") {
+                document.getElementById('sku-error').textContent = "SKU is required.";
+                isValid = false;
+            }
+
+            // Validate Description
+            const productDescription = document.getElementById('product-description').value;
+            if (productDescription.trim() === "") {
+                document.getElementById('description-error').textContent = "Description is required.";
+                isValid = false;
+            }
+
+            // Validate Price
+            const productPrice = document.getElementById('product-price').value;
+            if (productPrice <= 0) {
+                document.getElementById('price-error').textContent = "Price must be a positive value.";
+                isValid = false;
+            }
+
+            // If form is valid, you can proceed to submit it or handle it as needed
+            if (isValid) {
+                alert("Product successfully added!");
+                // Reset form (optional)
+                document.getElementById('product-form').reset();
+            }
+        });
+    </script>
+
+</body>
+</html>
