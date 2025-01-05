@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  box-sizing: border-box; 
+  overflow: hidden;
+  background: black;
+}
+
+.login-container {
+  position: relative;
+  z-index: 1; /* Ensure form content appears above the stars */
+  color: white;
+  width: 100%;
+  max-width: 600px; 
+  padding: 20px;
+  box-sizing: border-box; 
+}
+#stars,
+#stars2,
+#stars3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure stars appear behind the login form */
+}
+
+.login-form {
+  background-color: #FFFFFF;
+  padding: 60px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.login-form h1 {
+  color: #a00000;
+  text-align: center;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333333;
+}
+
+.login-form input {
+  width: 100%; 
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box; 
+}
+
+.login-form button {
+  width: 100%; 
+  padding: 12px;
+  background-color: #a00000;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.login-form button:hover {
+  background-color: #8b0000;
+}
+
+.create-account {
+
+  font-size: 14px;
+  margin: 0.5rem 0; /* Reduce the vertical space around the section */
+  display: flex;
+  justify-content: center; /* Align elements closer to each other */
+  gap: 0.5rem; /* Add controlled spacing between the label and link */
+}
+
+.create-account a {
+  text-align: justify;
+  color: #a00000;
+  text-decoration: none;
+}
+
+.create-account a:hover {
+  text-decoration: black;
+}
