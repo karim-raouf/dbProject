@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - E-commerce Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #a4b1eb;
+        }
+        th {
+            background-color: #273cb6;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        tr:hover td {
+            background-color: #f1f1f1;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            Orders
+        </div>
+        <div class="table-wrapper">
+            <table id="orders-table">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Supplier</th>
+                        <th>Quantity</th>
+                        <th>Product Status</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be dynamically inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Sample data (replace this with your actual data fetching logic)
+        const orderData = [
+            {
+                productId: "12345",
+                productName: "Wireless Mouse",
+                supplier: "Tech Supplies Co.",
+                quantity: 150,
+                status: "In Stock",
+                address: "123 Elm St, Springfield"
+            },
+            {
+                productId: "98765",
+                productName: "USB Keyboard",
+                supplier: "Office Gear Ltd.",
+                quantity: 200,
+                status: "Out of Stock",
+                address: "456 Oak Ave, Rivertown"
+            },
+            // Add more sample data as needed
+        ];
+
+        // Function to populate the table with data
+        function populateTable(data) {
+            const tableBody = document.querySelector("#orders-table tbody");
+            tableBody.innerHTML = ''; // Clear existing rows if any
+
+            // Loop through the data and create a new row for each order
+            data.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.productId}</td>
+                    <td>${order.productName}</td>
+                    <td>${order.supplier}</td>
+                    <td>${order.quantity}</td>
+                    <td>${order.status}</td>
+                    <td>${order.address}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Call the function to populate the table when the page loads
+        window.onload = () => {
+            populateTable(orderData); // Replace `orderData` with the actual data from your query
+        };
+    </script>
+</body>
+</html>
