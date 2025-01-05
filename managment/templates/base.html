@@ -43,7 +43,7 @@
       
       <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">Management System</a>
+        <a href="{% url 'dashboard' %}" class="logo">Management System</a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -306,18 +306,27 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
               </a>
             </li> -->
-            <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            
             <!-- <li class="active treeview">
               <a href="#">
                 <i class="fa fa-archive"></i> <span>Inventory</span>
               </a>
             </li> -->
-            <li><a href="{% url 'inventory' %}"><i class="fa fa-archive"></i> Inventory</a></li>
-            <li><a href="{% url 'alerts' %}"><i class="fas fa-bell" style="margin-right: 8px;"></i> Alerts</a></li>
-            <li><a href="{% url 'orders' %}"><i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Orders</a></li>
-            <li><a href="{% url 'reports' %}"><i class="fas fa-chart-bar" style="margin-right: 8px;"></i> Reports</a></li>
-            <li><a href="{% url 'suppliers' %}"><i class="fas fa-handshake" style="margin-right: 8px;"></i> Suppliers</a></li>
-            <li><a href="{% url 'settings' %}"><i class="fas fa-cog" style="margin-right: 8px;"></i> Settings</a></li>
+            
+            {% if request.user.role == "Admin" %}
+              <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+              <li><a href="{% url 'inventory' %}"><i class="fa fa-archive"></i> Inventory</a></li>
+              <li><a href="{% url 'alerts' %}"><i class="fas fa-bell" style="margin-right: 8px;"></i> Alerts&nbsp;&nbsp;&nbsp;<span  style="color:red">{{num}}</span></a></li>
+              <li><a href="{% url 'orders' %}"><i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Orders</a></li>
+              <li><a href="{% url 'reports' %}"><i class="fas fa-chart-bar" style="margin-right: 8px;"></i> Reports</a></li>
+              <li><a href="{% url 'suppliers' %}"><i class="fas fa-handshake" style="margin-right: 8px;"></i> Suppliers</a></li>
+              <li><a href="{% url 'settings' %}"><i class="fas fa-cog" style="margin-right: 8px;"></i> Settings</a></li>
+              <li><a href="{% url 'add-user' %}"><i class="fas fa-user" style="margin-right: 8px;"></i> Add User</a></li>
+            {% else %}
+              <li><a href="{% url 'orders' %}"><i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Orders</a></li>
+              <li><a href="{% url 'reports' %}"><i class="fas fa-chart-bar" style="margin-right: 8px;"></i> Reports</a></li>
+            {% endif %}
+            
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-danger"></i> Important</a></li>
             <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Warning</a></li>

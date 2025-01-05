@@ -1,5 +1,98 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #000;
+        }
 
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        .inventory {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        .product {
+            background-color: #f9f9f9;
+            border: 1px solid #000;
+            border-radius: 8px;
+            width: 30%;
+            margin: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .product:hover {
+            transform: scale(1.04);
+        }
+
+        .product h2 {
+            font-size: 1.7em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .product p {
+            margin: 5px 0;
+        }
+        .title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Different colors for each product box */
+
+    </style>
+</head>
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="container">
+            <div class="title">
+                Inventory
+            </div>
+            <div class="inventory">
+                {% for product in  products %}
+                <div class="product">
+                    <h2>{{product.name}}</h2>
+                    {% for item in inventory %}
+                        {% if item.product == product %}
+                        
+                            <p>Location: {{item.location}}</p>
+                            <p>Stock: {{item.stock_level}}</p>
+                            
+                        {% endif %}
+                    {% endfor %}
+                    <p>Price: ${{product.price}}</p>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+      </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 {% endblock body %}

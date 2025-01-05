@@ -2,4 +2,85 @@
 {% load static %}
 {% block body %}
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - E-commerce Management</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #c2c5ee;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .alert-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .product-box {
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .product-box h3 {
+            font-size: 35px;
+            font-weight: bold;
+            margin: 0 0 10px;
+        }
+        .product-box p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .critical {
+            background-color: rgb(223, 124, 124);
+        }
+        .low {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="container">
+            <div class="title">
+                Stock Alert System
+            </div>
+                <div class="alert-box">
+                    <!-- Product 1: Critical Stock -->
+                    {% for item in inventory %}
+                        {% if item.stock_level <= item.low_stock_alert %}
+                            <div class="product-box critical">
+                                
+                                <h3>{{item.product.name}}</h3>
+                                <p><strong>Supplier:</strong> {{item.product.supplier.user.username}}</p>
+                                <p><strong>Amount Left:</strong> {{item.stock_level}} units</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+      </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 {% endblock body %}

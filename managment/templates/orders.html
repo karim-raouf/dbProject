@@ -2,4 +2,95 @@
 {% load static %}
 {% block body %}
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - E-commerce Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 95%;
+            margin: 20px auto;
+        }
+        .title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 120%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #a4b1eb;
+        }
+        th {
+            background-color: #273cb6;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        tr:hover td {
+            background-color: #f1f1f1;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="container">
+            <div class="title">
+                Orders
+            </div>
+            <div class="table-wrapper">
+                <table id="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Supplier</th>
+                            <th>Quantity</th>
+                            <th>Order Status</th>
+                            <th>order_date</th>
+                            <th>received_date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                             <td>{{order.id}}</td>
+                            <td>{{order.product.id}}</td>
+                            <td>{{order.product.name}}</td>
+                            <td>{{order.supplier.user.username}}</td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.status}}</td>
+                            <td>{{order.order_date}}</td>
+                            <td>{{order.received_date}}</td>
+                        </tr>    
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 {% endblock body %}

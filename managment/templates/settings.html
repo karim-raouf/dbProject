@@ -1,5 +1,121 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #e0f7fa, #80deea);
+            color: #000;
+        }
+        .title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        .settings-container {
+            width: 90%;
+            margin: 20px auto;
+            padding-right: 120px;
+            text-align: center;
+        }
+
+        .product-setting {
+            background-color: #f9f9f9;
+            border: 1px solid #000;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-setting h2 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .product-setting input {
+            padding: 5px;
+            width: 100px;
+            text-align: center;
+        }
+
+        .save-button {
+            padding: 8px 16px;
+            background-color: #005f79;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background-color: #00444d;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #001279;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #004d40;
+        }
+
+    </style>
+</head>
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="container">
+            <div class="title">
+                Low Stock Alert Settings
+            </div>
+            <form method = "POST" style="padding-left: 150px">
+                {% csrf_token %}
+                <div class="settings-container">
+                    {% for item in inventory %}
+                        <div class="product-setting">
+                            <h2>{{item.product.name}}</h2>
+                            <input type="number" name="lowstock_{{ item.id }}" value="{{ item.low_stock_alert }}" placeholder="Threshold" />
+                            <button type="submit" class="save-button">Save</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+      </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 {% endblock body %}
+
+
+
+
+

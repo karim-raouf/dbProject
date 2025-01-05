@@ -27,13 +27,12 @@ class User(AbstractUser):
 
 
 class Supplier(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='supplier_profile')
-    
-    contract_details = models.TextField()
-    restock_terms = models.TextField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='supplier_profile',null=True)
+    start_date = models.DateField(auto_now_add=True , null = True)
+    end_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 class Product(models.Model):

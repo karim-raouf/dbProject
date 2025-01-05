@@ -12,4 +12,6 @@ urlpatterns = [
     path('settings/', views.settings , name="settings"),
     path('product/', views.product , name="product"),
     path('alerts/', views.alerts , name="alerts"),
+    path('add-supplier/', views.add_supplier , name="add-supplier"),
+    path('add-user/', views.add_user , name="add-user")
 ]
