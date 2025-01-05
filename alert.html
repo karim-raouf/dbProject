@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert System - E-commerce Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #c2c5ee;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .alert-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .product-box {
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .product-box h3 {
+            font-size: 24px;
+            margin: 0 0 10px;
+        }
+        .product-box p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .critical {
+            background-color: rgb(223, 124, 124);
+        }
+        .low {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            Stock Alert System
+        </div>
+        <div class="alert-box">
+            <!-- Product 1: Critical Stock -->
+            <div class="product-box critical">
+                <h3>Product A</h3>
+                <p><strong>Supplier:</strong> Supplier X</p>
+                <p><strong>Amount Left:</strong> 5 units</p>
+            </div>
+            <!-- Product 2: Critical Stock -->
+            <div class="product-box critical">
+                <h3>Product B</h3>
+                <p><strong>Supplier:</strong> Supplier Y</p>
+                <p><strong>Amount Left:</strong> 3 units</p>
+            </div>
+            <!-- Product 3: Low Stock -->
+            <div class="product-box low">
+                <h3>Product C</h3>
+                <p><strong>Supplier:</strong> Supplier Z</p>
+                <p><strong>Amount Left:</strong> 20 units</p>
+            </div>
+            <!-- Product 4: Low Stock -->
+            <div class="product-box low">
+                <h3>Product D</h3>
+                <p><strong>Supplier:</strong> Supplier W</p>
+                <p><strong>Amount Left:</strong> 30 units</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
