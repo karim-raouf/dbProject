@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f9ff; /* Light blue background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #2d72d9; /* Deep blue color for title */
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2d72d9;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #2d72d9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #1e5a99;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">
+            Add New Product
+        </div>
+
+        <form id="product-form">
+            <div class="form-group">
+                <label for="product-id">Product ID</label>
+                <input type="text" id="product-id" name="product-id" required placeholder="Enter product ID">
+                <span class="error" id="id-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="product-name">Product Name</label>
+                <input type="text" id="product-name" name="product-name" required placeholder="Enter product name">
+                <span class="error" id="name-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="product-sku">SKU</label>
+                <input type="text" id="product-sku" name="product-sku" required placeholder="Enter SKU">
+                <span class="error" id="sku-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="product-description">Description</label>
+                <textarea id="product-description" name="product-description" rows="4" required placeholder="Enter product description"></textarea>
+                <span class="error" id="description-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="product-price">Price</label>
+                <input type="number" id="product-price" name="product-price" required step="0.01" placeholder="Enter price">
+                <span class="error" id="price-error"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add Product">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Form validation script
+        document.getElementById('product-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(function(errorSpan) {
+                errorSpan.textContent = '';
+            });
+
+            // Validate ID
+            const productId = document.getElementById('product-id').value;
+            if (!productId.match(/^\d+$/)) {
+                document.getElementById('id-error').textContent = "Product ID must be numeric.";
+                isValid = false;
+            }
+
+            // Validate Name
+            const productName = document.getElementById('product-name').value;
+            if (productName.trim() === "") {
+                document.getElementById('name-error').textContent = "Product name is required.";
+                isValid = false;
+            }
+
+            // Validate SKU
+            const productSku = document.getElementById('product-sku').value;
+            if (productSku.trim() === "") {
+                document.getElementById('sku-error').textContent = "SKU is required.";
+                isValid = false;
+            }
+
+            // Validate Description
+            const productDescription = document.getElementById('product-description').value;
+            if (productDescription.trim() === "") {
+                document.getElementById('description-error').textContent = "Description is required.";
+                isValid = false;
+            }
+
+            // Validate Price
+            const productPrice = document.getElementById('product-price').value;
+            if (productPrice <= 0) {
+                document.getElementById('price-error').textContent = "Price must be a positive value.";
+                isValid = false;
+            }
+
+            // If form is valid, you can proceed to submit it or handle it as needed
+            if (isValid) {
+                alert("Product successfully added!");
+                // Reset form (optional)
+                document.getElementById('product-form').reset();
+            }
+        });
+    </script>
+
+</body>
+</html>
