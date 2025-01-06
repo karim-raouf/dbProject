@@ -65,3 +65,28 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'sku', 'description', 'price', 'supplier']
+        
+        
+
+class orderForm(forms.ModelForm):
+    product = forms.ModelChoiceField(
+        queryset=Product.objects.all(),
+        widget=forms.Select(attrs={'class': 'user-select'}),
+        required=True  # Make this required if needed
+    )
+    
+    supplier = forms.ModelChoiceField(
+        queryset=Supplier.objects.all(),
+        widget=forms.Select(attrs={'class': 'user-select'}),
+        required=True  # Make this required if needed
+    )
+    
+    # Change end_date to DateField for proper date handling and make it required
+    quantity = forms.IntegerField(
+        widget=forms.NumberInput(attrs={'placeholder': 'Enter Quantity...', 'id': 'quantity', 'type': 'number'}),
+        required=True
+    )
+    
+    class Meta:
+        model = Order
+        fields = ['product','supplier' , 'quantity']

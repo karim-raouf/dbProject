@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout as auth_logout, login as auth_login 
 from .models import *
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from .forms import *
+from django.utils import timezone
 # Create your views here.
 
 def login(request):
@@ -19,7 +20,10 @@ def login(request):
                 print("3")
                 auth_login(request, user)
                 print("4")
-                return redirect('dashboard')
+                if user.role == "Admin":
+                    return redirect('dashboard')
+                else:
+                    return redirect('orders')
             else:
                 # messages.error(request, "Invalid username or password!")
                 print("5")
@@ -64,6 +68,48 @@ def orders(request):
     context={"orders" : orders}
     return render(request, 'orders.html' , context)
 
+def accept_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    # Ensure the user is a supplier and the order status is "Pending"
+    if request.user.role == "Supplier" and order.status == "Pending":
+        order.status = "Shipped"
+        order.save()
+
+    return redirect('orders')
+
+def receive_order(request, order_id):
+    # Retrieve the order or return a 404 if not found
+    order = get_object_or_404(Order, id=order_id)
+    
+    # Check if the user is an Admin and the order status is "Shipped"
+    if request.user.role == "Admin" and order.status == "Shipped":
+        try:
+            # Retrieve the associated product and inventory
+            product = order.product
+            inventory = Inventory.objects.get(product=product)
+            
+            # Update inventory stock level
+            inventory.stock_level += order.quantity
+            inventory.save()
+            
+            # Update the order status and received date
+            order.status = "Received"
+            order.received_date = timezone.now()
+            order.save()
+            
+            # Add a success message
+            messages.success(request, f"Order #{order.id} marked as received, and inventory updated.")
+        except Inventory.DoesNotExist:
+            # Handle cases where inventory for the product doesn't exist
+            messages.error(request, f"Inventory not found for product: {product.name}.")
+    else:
+        # Add an error message if conditions are not met
+        messages.error(request, "You are not authorized to receive this order or the order status is not 'Shipped'.")
+    
+    # Redirect back to the orders page
+    return redirect('orders')
+
 def reports(request):
     context={}
     return render(request, 'reports.html' , context)
@@ -95,6 +141,26 @@ def add_supplier(request):
         form = supplierForm()
     context={"form" : form}
     return render(request, 'add_supplier.html' , context)
+
+def add_order(request):
+    if request.method == 'POST':
+        form = orderForm(request.POST)
+        
+        # Check if the form is valid
+        if form.is_valid():
+            # Save the form data and create a new Supplier instance
+            form.save()
+            # Redirect to a success page or supplier list page after saving
+            return redirect('orders')  # Modify this to your actual redirect URL
+            
+        else:
+            return render(request, 'add_order.html', {'form': form})
+    
+    # If the request is GET, show the empty form
+    else:
+        form = orderForm()
+    context={"form" : form}
+    return render(request, 'add_order.html' , context)
 
 def add_user(request):
     if request.method == "POST":

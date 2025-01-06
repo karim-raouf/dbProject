@@ -31,7 +31,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         th, td {
-            padding: 12px;
+            padding: 16px;
             text-align: left;
             border: 1px solid #a4b1eb;
         }
@@ -48,6 +48,42 @@
         .table-wrapper {
             overflow-x: auto;
         }
+        .btnx {
+            display: block;
+            width: 100px;
+            /* margin: 20px auto; */
+            padding: 0px;
+            text-align: center;
+            margin-right: -70px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btnx:hover {
+            background-color: #0056b3;
+        }
+        .include-product-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .include-product-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <div class="content-wrapper">
@@ -59,6 +95,9 @@
             <div class="title">
                 Orders
             </div>
+            {% if request.user.role == "Admin" %}
+                <a href="{% url 'add-order' %}" class="include-product-btn">Create Order</a>
+            {% endif %}
             <div class="table-wrapper">
                 <table id="orders-table">
                     <thead>
@@ -71,6 +110,13 @@
                             <th>Order Status</th>
                             <th>order_date</th>
                             <th>received_date</th>
+                            {% if request.user.role == "Supplier" %}
+                            <th>Approval</th>
+                            {% endif %}
+                            {% if request.user.role == "Admin" %}
+                            <th>Shipped</th>
+                            {% endif %}
+
                         </tr>
                     </thead>
                     <tbody>
@@ -81,9 +127,25 @@
                             <td>{{order.product.name}}</td>
                             <td>{{order.supplier.user.username}}</td>
                             <td>{{order.quantity}}</td>
-                            <td>{{order.status}}</td>
+                            <td class="order-status">{{order.status}}</td>
                             <td>{{order.order_date}}</td>
                             <td>{{order.received_date}}</td>
+                            {% if request.user.role == "Supplier" %}
+                                {% if order.status == "Pending" %}
+                                    <td><button class="approve btnx" data-order-id="{{ order.id }}">accept</button></td>
+                                {% else %}
+                                    <td>Approved</td>
+                                {% endif %}
+                            {% endif %}
+                            {% if request.user.role == "Admin" %}
+                                {% if order.status == "Shipped" %}
+                                    <td><button class="receive btnx" data-order-id="{{ order.id }}">Received</button></td>
+                                {% elif order.status == "Pending" %}
+                                    <td>False</td>
+                                {% else %}
+                                    <td>True</td>
+                                {% endif %}
+                            {% endif %}
                         </tr>    
                         {% endfor %}
                     </tbody>
@@ -93,4 +155,78 @@
       </div><!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<script>
+    // Add event listeners to all approve buttons
+    document.querySelectorAll('.approve').forEach(button => {
+        button.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order-id');
+            const url = "{% url 'accept_order' 0 %}".replace('0', orderId); // Replace with the correct order ID
+
+            // Send the request to the server
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',  // Send cookies (session data)
+            }).then(response => {
+                if (response.ok) {
+                    const approvedText = document.createElement('span');
+                    approvedText.innerHTML = 'Approved';
+                    // Replace the button with the new text
+                    this.parentNode.replaceChild(approvedText, this);
+
+                    // Now select the order status element inside the row
+                    const statusCell = this.closest('td').querySelector('.order-status');
+            
+                    // Change the text of the order status cell to 'Shipped'
+                    if (statusCell) {
+                        statusCell.innerHTML = 'Shipped';
+                    }
+                } else {
+                    alert('Error in updating the order status.');
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    // Add event listeners to all receive buttons
+    document.querySelectorAll('.receive').forEach(button2 => {
+        button2.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order-id');
+            const url = "{% url 'receive_order' 0 %}".replace('0', orderId); // Replace with the correct order ID
+
+            // Send the request to the server
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',  // Send cookies (session data)
+            }).then(response => {
+                if (response.ok) {
+                    // Replace the button with the new text
+                    const approvedText = document.createElement('span');
+                    approvedText.innerHTML = 'True'; // Update to 'Received'
+                    this.parentNode.replaceChild(approvedText, this);
+
+                    // Now select the order status element inside the row
+                    const orderStatusElement = this.closest('tr').querySelector('.order-status');
+
+                    // Change the text of the order status cell to 'Received'
+                    if (orderStatusElement) {
+                        orderStatusElement.innerHTML = 'Received';
+                    }
+                } else {
+                    alert('Error in updating the order status.');
+                }
+            });
+        });
+    });
+</script>
+
+
 {% endblock body %}

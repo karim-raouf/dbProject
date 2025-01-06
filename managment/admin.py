@@ -6,5 +6,4 @@ admin.site.register(Supplier)
 admin.site.register(Product)
 admin.site.register(Inventory)
 admin.site.register(Order)
-admin.site.register(Report)
 

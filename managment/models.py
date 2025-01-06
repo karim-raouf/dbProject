@@ -70,19 +70,3 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.id} - {self.product.name}"
 
-
-class Report(models.Model):
-    report_type = models.CharField(
-        max_length=50,
-        choices=[
-            ('Inventory Turnover', 'Inventory Turnover'),
-            ('Low-Stock Alerts', 'Low-Stock Alerts'),
-            ('Restocking Needs', 'Restocking Needs'),
-            ('Sales Trends', 'Sales Trends'),
-        ],
-    )
-    generated_date = models.DateTimeField(auto_now_add=True)
-    data = models.TextField()  # JSON or plain text format for report data
-
-    def __str__(self):
-        return f"{self.report_type} - {self.generated_date}"
